@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 import Link from "next/link";
+import { ADMIN_ROLES, hasAnyAdminRole } from "@/lib/admin-roles";
 
 export default function LoginPage() {
   const [phone, setPhone] = useState("");
@@ -40,12 +41,7 @@ export default function LoginPage() {
       setTimeout(() => {
         const roles = data.user?.roles || [];
 
-        if (roles.includes("ADMIN")) {
-          window.location.href = "admin";
-          return;
-        }
-
-        if (roles.includes("ADMIN")) {
+        if (hasAnyAdminRole(roles, ADMIN_ROLES)) {
           window.location.href = "/admin";
           return;
         }

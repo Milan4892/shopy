@@ -2,16 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
-
-const ADMIN_ROLES = [
-  "SUPER_ADMIN",
-  "ADMIN",
-  "FINANCE_ADMIN",
-  "CRYPTO_ADMIN",
-  "SUPPORT_ADMIN",
-  "CONTENT_ADMIN",
-  "MODERATOR",
-];
+import { ADMIN_ROLES } from "@/lib/admin-roles";
 
 function hashSessionToken(token: string) {
   return crypto

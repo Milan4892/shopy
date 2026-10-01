@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUser } from "@/lib/auth";
 
+import { ADMIN_ROLES, hasAnyAdminRole } from "@/lib/admin-roles";
 type RouteContext = {
   params: Promise<{
     id: string;
@@ -15,7 +16,7 @@ export async function GET(
   try {
     const auth = await getAuthenticatedUser(request);
 
-    if (!auth || !auth.roles.includes("ADMIN")) {
+    if (!auth || !hasAnyAdminRole(auth.roles, ADMIN_ROLES)) {
       return NextResponse.json(
         {
           success: false,

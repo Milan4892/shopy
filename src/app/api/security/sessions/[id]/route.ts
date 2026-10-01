@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUser } from "@/lib/auth";
 
+import { ADMIN_ROLES, hasAnyAdminRole } from "@/lib/admin-roles";
 export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }

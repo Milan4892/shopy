@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import crypto from "crypto";
+import { ADMIN_ROLES, hasAnyAdminRole } from "@/lib/admin-roles";
 
 function hashSessionToken(token: string) {
   return crypto.createHash("sha256").update(token).digest("hex");
@@ -43,8 +44,9 @@ export default async function AdminDashboardPage() {
     redirect("/admin/login");
   }
 
-  const isAdmin = session.user.roles.some(
-    (userRole) => userRole.role.code === "ADMIN"
+  const isAdmin = hasAnyAdminRole(
+    session.user.roles.map((userRole) => userRole.role.code),
+    ADMIN_ROLES
   );
 
   if (!isAdmin) {

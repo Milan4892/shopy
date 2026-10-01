@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import { NextResponse } from "next/server";
 import { getAuthenticatedUser } from "@/lib/auth";
+import { ADMIN_ROLES, hasAnyAdminRole } from "@/lib/admin-roles";
 import { prisma } from "@/lib/prisma";
 
 function getDateKey(date: Date) {

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUser } from "@/lib/auth";
+import { ADMIN_ROLES, hasAnyAdminRole } from "@/lib/admin-roles";
 
 const ALLOWED_STATUSES = [
   "ACTIVE",
@@ -27,7 +28,7 @@ export async function PATCH(
       );
     }
 
-    const isAdmin = auth.roles.includes("ADMIN");
+    const isAdmin = hasAnyAdminRole(auth.roles, ADMIN_ROLES);
 
     if (!isAdmin) {
       return NextResponse.json(
